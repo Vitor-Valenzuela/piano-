@@ -9,10 +9,22 @@
 
 body {
     background-color: #ebebeb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+:root {
+    --primary-dark: #121212;
+    --secondary-dark: #181818;
+    --light-gray: #ddd;
+    --white: white;
+    --blue-accent: #006eff;
+    --transition: 300ms;
 }
 
 .piano {
-    background-color: #121212;
+    background-color: var(--primary-dark);
     width: 1000px;
     height: 400px;
     margin: 100px auto 0;
@@ -21,6 +33,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .controls {
@@ -29,11 +42,19 @@ body {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
 }
 
 .controls h1 {
     font-weight: 500;
     font-size: 1.4rem;
+}
+
+.checkbox__label {
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+    align-items: center;
 }
 
 .switcher {
@@ -43,48 +64,32 @@ body {
     display: flex;
     border-radius: 50px;
     padding: 4px;
+    transition: background-color var(--transition);
 }
 
 .switcher__button {
     height: 100%;
     aspect-ratio: 1/1;
-    background-color: #ddd;
+    background-color: var(--light-gray);
     border-radius: 25px;
+    transition: transform var(--transition);
 }
 
 .switcher--active {
-    background-color: #006eff;
-    justify-content: flex-end;
+    background-color: var(--blue-accent);
 }
 
-.checkbox__label {
-    display: flex;
-    gap: 15px;
+.switcher--active .switcher__button {
+    transform: translateX(25px);
 }
 
 .piano__keys {
     width: 100%;
     height: 300px;
-    background-color: #181818;
+    background-color: var(--secondary-dark);
     border-radius: 15px;
     padding: 30px 40px;
     display: flex;
-}
-
-.white {
-    background-color: white;
-    flex-grow: 1;
-    border-radius: 5px;
-    border-bottom: 8px solid #ddd;
-    color: rgba(0, 0, 0, 0.3);
-    margin-left: -17px;
-    z-index: 1;
-}
-
-.key span {
-    font-weight: 600;
-    position: absolute;
-    transition-duration: 300ms;
 }
 
 .key {
@@ -94,41 +99,98 @@ body {
     justify-content: center;
     padding-bottom: 8px;
     user-select: none;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.key span {
+    font-weight: 600;
+    position: absolute;
+    transition: opacity var(--transition);
+    bottom: 5px;
+}
+
+.white {
+    background-color: var(--white);
+    flex-grow: 1;
+    border-radius: 5px;
+    border-bottom: 8px solid var(--light-gray);
+    color: rgba(0, 0, 0, 0.3);
+    margin-left: -17px;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.white--pressed {
+    background-color: var(--light-gray);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.white:nth-child(1) {
+    margin-left: 0;
+}
+
+.white:nth-child(5),
+.white:nth-child(12),
+.white:nth-child(17) {
+    margin-right: 20px;
 }
 
 .black {
     width: 40px;
-    background: linear-gradient(black, #333);
+    background: linear-gradient(to bottom, #1a1a1a, #000);
     height: 150px;
     border-radius: 0 0 5px 5px;
     border-bottom: 8px solid #222;
     margin-left: -20px;
     z-index: 2;
     color: rgba(255, 255, 255, 0.3);
-}
-
-.piano__keys .white:nth-child(1) {
-    margin-left: 0;
-}
-
-.piano__keys .white:nth-child(5) {
-    margin-right: 20px;
-}
-
-.piano__keys .white:nth-child(12) {
-    margin-right: 20px;
-}
-
-.piano__keys .white:nth-child(17) {
-    margin-right: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .black--pressed {
-    background: linear-gradient(#222, black);
+    background: linear-gradient(to bottom, #000, #222);
     border-bottom: none;
     height: 148px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .disabled-keys span {
     opacity: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .piano {
+        width: 90%;
+        height: 350px;
+    }
+    
+    .piano__keys {
+        height: 250px;
+        padding: 20px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .piano {
+        width: 95%;
+        height: 300px;
+        margin: 50px auto 0;
+    }
+    
+    .piano__keys {
+        height: 200px;
+        padding: 15px 20px;
+    }
+    
+    .controls {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .controls h1 {
+        font-size: 1.2rem;
+    }
 }
