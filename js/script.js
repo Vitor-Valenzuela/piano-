@@ -7,9 +7,17 @@ const keysSection = document.querySelector('.piano__keys');
 // Audio Cache para melhor performance
 const audioCache = {};
 
+// Caminho base para funcionar em GitHub Pages e localhost
+const getAudioPath = (note) => {
+    const basePath = window.location.pathname.includes('piano-') 
+        ? '/piano-/notes/' 
+        : '/notes/';
+    return basePath + note + '.wav';
+}
+
 const playNote = (note) => {
     if (!audioCache[note]) {
-        audioCache[note] = new Audio(`../notes/${note}.wav`);
+        audioCache[note] = new Audio(getAudioPath(note));
     }
     
     // Reinicia o áudio se ele já está tocando
