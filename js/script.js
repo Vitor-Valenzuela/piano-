@@ -9,15 +9,18 @@ const audioCache = {};
 
 // Caminho base para funcionar em GitHub Pages e localhost
 const getAudioPath = (note) => {
-    const basePath = window.location.pathname.includes('piano-') 
-        ? '/piano-/notes/' 
-        : '/notes/';
+    // usamos caminho relativo para que o áudio seja carregado tanto
+    // em localhost quanto no GitHub Pages independe do nome do repositório.
+    // evitar a barra inicial ('/') porque em file:// apontaria para a raiz do drive.
+    const basePath = './notes/';
     return basePath + note + '.wav';
 }
 
 const playNote = (note) => {
+    const path = getAudioPath(note);
+    console.log('playing note', note, '=>', path);
     if (!audioCache[note]) {
-        audioCache[note] = new Audio(getAudioPath(note));
+        audioCache[note] = new Audio(path);
     }
     
     // Reinicia o áudio se ele já está tocando
